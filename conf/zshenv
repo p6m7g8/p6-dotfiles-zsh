@@ -1,0 +1,2 @@
+export P6_DEBUG=1
+export P6_VERBOSE=1

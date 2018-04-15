@@ -1,0 +1,40 @@
+# ZSH initialization
+# man zsh(1)
+#
+# if ZDOTDIR is unset HOME is used
+# /etc is install specific
+#
+# /etc/zshenv
+# $HOME/.zshenv (me - conf/zshenv-xdg)
+# ZDOTDIR/.zshenv (conf/zshenv)
+# if login
+#   /etc/zprofile
+#   $ZDOTDIR/.zprofile
+# if interactive
+#      /etc/zshrc
+#      $ZDOTDIR/.zshrc (entry point conf/.zshrc
+# if login
+#   /etc/zlogin
+#   $ZDOTDIR/.zlogin
+
+# https://specifications.freedesktop.org/basedir-spec/latest/
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+
+export XDG_DATA_DIRS=/usr/local/share/:/usr/share/ 
+export XDG_CONFIG_DIR=/etc/xdg
+#export XDG_RUNTIME_DIR
+
+# Don't load system zsh startup files
+unsetopt GLOBAL_RCS
+
+# https://wiki.archlinux.org/index.php/XDG_Base_Directory_support
+export P6_DFZ=$XDG_CONFIG_HOME/p6m7g8/p6-dotfiles-zsh
+export ZDOTDIR=$P6_DFZ/conf
+
+# most code lives here
+export P6_DFZ_DATA_DIR=$XDG_DATA_HOME/p6m7g8
+
+# Load "my" stuff
+. $ZDOTDIR/zshenv
