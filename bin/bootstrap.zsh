@@ -39,7 +39,7 @@ main() {
     # clone it
     rm -rf $XDG_CONFIG_HOME/p6m7g8
     mkdir -p $XDG_CONFIG_HOME/p6m7g8
-    git clone -q https://github.com/p6m7g8/p6-dotfiles-zsh $XDG_CONFIG_HOME/p6m7g8/p6-dotfiles-zsh
+    git clone -q https://github.com/p6m7g8/p6-dotfiles-zsh $P6_DFZ
     
     # hook zsh
     rm -f $HOME/.zshenv
