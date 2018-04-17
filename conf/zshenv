@@ -1,2 +1,8 @@
-export P6_DEBUG=1
-export P6_VERBOSE=1
+# Don't load system zsh startup files (/etc/{zprofile,zshrc,zlogin})
+unsetopt GLOBAL_RCS
+
+# https://wiki.archlinux.org/index.php/XDG_Base_Directory_support for ZSH/ZDOTDIR
+export ZDOTDIR=$P6_DFZ_CONFIG_DIR/conf
+
+# bootstrap
+export P6_DFZ_LIB_DIR=$P6_DFZ_CONFIG_DIR/lib

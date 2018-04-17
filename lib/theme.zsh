@@ -1,7 +1,9 @@
 p6dfz::theme::init() {
 
   typeset -g Theme=builtin
-#  p6dfz::user::theme
+  if (( $+commands[p6dfz::user::theme] )); then
+    p6dfz::user::theme
+  fi
   echo Theme=$Theme
   
 }
