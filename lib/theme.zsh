@@ -4,7 +4,7 @@ p6dfz::theme::init() {
   if (( $+commands[p6dfz::user::theme] )); then
     p6dfz::user::theme
   fi
-  echo Theme=$Theme
+  echo Theme: $Theme
   
 }
 

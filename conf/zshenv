@@ -6,3 +6,4 @@ export ZDOTDIR=$P6_DFZ_CONFIG_DIR/conf
 
 # bootstrap
 export P6_DFZ_LIB_DIR=$P6_DFZ_CONFIG_DIR/lib
+export P6_DFZ_DATA_PARENT=$XDG_DATA_HOME
