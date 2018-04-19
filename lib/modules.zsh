@@ -63,7 +63,10 @@ p6dfz::module::load() {
   p6dfz::util::module_parse "$module"
   
   # load myself
-  p6dfz::util::file_load $P6_DFZ_DATA_PARENT/$repo[path]/init.zsh
+  p6dfz::util::file_load $P6_DFZ_DATA_PARENT/$repo[path]/init.zsh                             # p6df
+  p6dfz::util::file_load $P6_DFZ_DATA_PARENT/$repo[path]/$repo[repo].plugin.zsh               # 
+  p6dfz::util::file_load $P6_DFZ_DATA_PARENT/$repo[path]/$repo[sub]/init.zsh                  #
+  p6dfz::util::file_load $P6_DFZ_DATA_PARENT/$repo[path]/$repo[sub]/$repo[plugin].plugin.zsh  #
  
   ## @ModuleDeps
   local -aU ModuleDeps
@@ -71,7 +74,7 @@ p6dfz::module::load() {
   
   local dep
   for dep in $ModuleDeps[@]; do
-      p6dfz::util::exists "$repo[prefix]::version" || p6dfz::module::load $dep
+      p6dfz::module::load $dep
   done
   
   # cleanup

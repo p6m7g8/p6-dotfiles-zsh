@@ -10,19 +10,35 @@ p6dfz::util::module_parse() {
 
   declare -gA repo
 
+  local _t=${module%%:*}
+  repo[repo]=${_t##*/}
   repo[proto]=https
   repo[host]=github.com
   repo[org]=${module%%/*}
-  repo[repo]=${module##*/}
   repo[path]=$repo[org]/$repo[repo]
   repo[version]=master
+
   repo[prefix]=p6df::modules::${repo[repo]##p6df-}
+  repo[sub]=${module##*:}
+
+  repo[plugin]=${repo[sub]##*/}
 }
 
+typeset -AU Files
 p6dfz::util::file_load() {
   local file="$1"
 
   if [[ -r $file ]]; then
     . $file
+    Files[$file]=1
   fi
 }
+
+p6dfz::util::path_if() {
+  local dir="$1"
+
+  if [[ -d $dir ]]; then
+    path+=($dir)
+  fi
+}
+
