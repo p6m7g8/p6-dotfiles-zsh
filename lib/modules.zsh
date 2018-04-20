@@ -15,7 +15,7 @@
 p6dfz::modules::init() {
 
   declare -gaU Modules
-  local -aU required_modules=(p6m7g8/p6df-core p6m7g8/p6df-zsh)
+  local -aU required_modules=(p6m7g8/p6df-core)
 
   p6dfz::util::exists "p6dfz::user::modules" && p6dfz::user::modules
 
@@ -29,6 +29,8 @@ p6dfz::modules::init() {
 }
 
 p6dfz::modules::external_init() {
+
+  p6dfz::util::pm::homebrew::install
     
   declare -aU Modules
   if [ -n "$1" ]; then

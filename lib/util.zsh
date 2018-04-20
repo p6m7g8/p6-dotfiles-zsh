@@ -10,8 +10,7 @@ p6dfz::util::module_parse() {
 
   declare -gA repo
 
-  local _t=${module%%:*}
-  repo[repo]=${_t##*/}
+  repo[repo]=${${module%%:*}##*/}
   repo[proto]=https
   repo[host]=github.com
   repo[org]=${module%%/*}
@@ -24,7 +23,7 @@ p6dfz::util::module_parse() {
   repo[plugin]=${repo[sub]##*/}
 }
 
-typeset -AU Files
+typeset -gAU Files
 p6dfz::util::file_load() {
   local file="$1"
 
@@ -42,3 +41,12 @@ p6dfz::util::path_if() {
   fi
 }
 
+p6dfz::util::user::init() {
+  
+  p6dfz::util::file_load $HOME/.zsh-me
+}
+
+p6dfz::util::pm::homebrew::install() {
+
+  yes | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+}
