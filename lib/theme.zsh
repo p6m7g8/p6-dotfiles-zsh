@@ -1,10 +1,12 @@
+#####################################################################################################
+#>
+# p6dfz::theme::init
+#
+#<
+####################################################################################################
 p6dfz::theme::init() {
 
-  typeset -g Theme=builtin
-  if (( $+commands[p6dfz::user::theme] )); then
-    p6dfz::user::theme
-  fi
-  echo Theme: $Theme
-  
-}
+  p6dfz::util::exists "p6dfz::user::theme" && p6dfz::user::theme
 
+  export P6_DFZ_THEME=theme
+}
