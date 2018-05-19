@@ -10,3 +10,5 @@ p6dfz::theme::init() {
 
   export P6_DFZ_THEME=theme
 }
+
+
