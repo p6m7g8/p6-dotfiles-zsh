@@ -68,6 +68,7 @@ p6df::prompt::cloud::line() {
 }
 
 p6df::prompt::lang::line() {
+  [ -n "${DISABLE_ENVS}" ] && return
 
   local -a langs=(python perl ruby go java scala lua R)
   local lang
@@ -83,7 +84,7 @@ p6df::prompt::lang::line() {
     fi
     str="$str $prefix:$cntv"
   done
-  
+
   str=${str## }
   echo "lang:\t$str"
 }

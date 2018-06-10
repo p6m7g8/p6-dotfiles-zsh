@@ -16,8 +16,9 @@ p6dfz::util::module_parse() {
   repo[org]=${module%%/*}
   repo[path]=$repo[org]/$repo[repo]
   repo[version]=master
-
-  repo[prefix]=p6df::modules::${repo[repo]##p6df-}
+  
+  repo[module]=${repo[repo]##p6df-}
+  repo[prefix]=p6df::modules::$repo[module]
   repo[sub]=${module##*:}
 
   repo[plugin]=${repo[sub]##*/}
@@ -38,13 +39,18 @@ p6dfz::util::module_parse() {
   fi
 }
 
-typeset -gAU Files
+export -a FILES
 p6dfz::util::file_load() {
   local file="$1"
 
   if [[ -r $file ]]; then
-    . $file
-    Files[$file]=1
+    FILES+=($file)
+    if p6dfz::util::exists p6_file_load; then
+      p6_file_load $file
+    else
+      echo "===========> $file"
+      . $file
+    fi
   fi
 }
 
