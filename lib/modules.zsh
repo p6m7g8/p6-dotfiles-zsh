@@ -68,9 +68,9 @@ p6dfz::module::load() {
 
   # load myself
   if [[ $repo[extra_load_path] ]]; then
-    p6dfz::util::file_load $P6_DFZ_DATA_PARENT/$repo[extra_load_path]
+    p6dfz::util::file_load $P6_DFZ_DATA_DIR/$repo[extra_load_path]
   fi
-  p6dfz::util::file_load $P6_DFZ_DATA_PARENT/$repo[load_path]
+  p6dfz::util::file_load $P6_DFZ_DATA_DIR/$repo[load_path]
   p6dfz::util::exists p6df::modules::$repo[module]::init && p6df::modules::$repo[module]::init
 
   ## @ModuleDeps

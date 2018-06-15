@@ -62,6 +62,14 @@ p6dfz::util::path_if() {
   fi
 }
 
+p6dfz::util::cdpath_if() {
+  local dir="$1"
+
+  if [[ -d $dir ]]; then
+    cdpath+=($dir)
+  fi
+}
+
 p6dfz::util::user::init() {
 
   p6dfz::util::file_load $HOME/.zsh-me

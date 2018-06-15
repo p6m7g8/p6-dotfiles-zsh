@@ -30,7 +30,22 @@ $PROMPT
 
 p6dfz::prompt::runtime() {
 
+  local -a lines
+
+  local line
   for line in $@; do
+    case $line in
+      %local%) 
+        local -a tmp=$(p6dfz::prompt::local)
+        lines+=($tmp) 
+        ;;
+      *) 
+        lines+=($line) 
+        ;;
+    esac
+  done
+
+  for line in $lines[@]; do
     local func="p6df::prompt::$line::line"
     if p6dfz::util::exists $func; then
       local cnt=$($func)
