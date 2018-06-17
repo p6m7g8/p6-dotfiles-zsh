@@ -3,7 +3,7 @@
 usage() {
     cat <<EOF
 Usage: 
-  zsh <(curl -s -o - https://raw.githubusercontent.com/p6m7g8/p6-dotfiles-zsh/master/bin/bootstrap.zsh)
+  zsh <(curl -s -o - https://raw.githubusercontent.com/p6m7g8/p6dfz/master/bin/bootstrap.zsh)
 
 Environment:
 
@@ -29,26 +29,19 @@ EOF
 main() {
 
     # returns %Flags
-    parse_cli "$@"
+#    parse_cli "$@"
 
     # tmpdir
-    TMPDIR=${TMPDIR:-${Flags[t]:-/tmp}
-    
-    ## Centralized ENV defs (pull-in)
-    curl -s -o $TMPDIR/zshenv-xdg https://raw.githubusercontent.com/p6m7g8/p6dfz/master/conf/zshenv-xdg
-    P6_DFZ_BOOTSTRAP=1 . $TMPDIR/zshenv-xdg
+    TMPDIR=${TMPDIR:-${Flags[t]:-/tmp}}
 
-    # clone it
-    rm -rf $P6_DFZ_CONFIG_DIR
-    mkdir -p $P6_DFZ_CONFIG_DIR/..
-    git clone -q https://github.com/p6m7g8/p6dfz $P6_DFZ_CONFIG_DIR
-    
-    # hook zsh
-    rm -f $HOME/.zshenv
-    ln -s P6_DFZ_ZSHENV_XDG_FILE $HOME/.zshenv
-   
-    # cleanup
-    rm -f $TMPDIR/zshenv-xdg
+    mkdir -p ~/src/p6m7g8
+    git -q clone https://github.com/p6m7g8/p6df-core ~/src/p6m7g8
+    (
+        cd ~ ; 
+        rm -f .zlogin .zlogout .zprofile .zshrc
+        ln -s ~/src/p6m7g8/p6df-core/conf/zshenv-xdg .zshenv
+        ln -s ~/src/p6m7g8/p6df-core/conf/zshrc  .zshrc
+    )
 
     # reload
     exec $SHELL -li
