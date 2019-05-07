@@ -36,7 +36,7 @@ main() {
 
     mkdir -p ~/src/github.com/p6m7g8
     rm -rf ~/src/github.com/p6m7g8/p6df-core
-    git clone -q https://github.com/p6m7g8/p6df-core ~/src/p6m7g8/p6df-core
+    git clone -q https://github.com/p6m7g8/p6df-core ~/src/github.com/p6m7g8/p6df-core
     (
         cd ~ ; 
         rm -f .zlogin .zlogout .zprofile .zshrc .zshenv
