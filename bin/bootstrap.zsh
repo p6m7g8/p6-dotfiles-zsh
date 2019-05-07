@@ -34,14 +34,14 @@ main() {
     # returns %Flags
 #    parse_cli "$@"
 
-    mkdir -p ~/src/p6m7g8
-    rm -rf ~/src/p6m7g8/p6df-core
+    mkdir -p ~/src/github.com/p6m7g8
+    rm -rf ~/src/github.com/p6m7g8/p6df-core
     git clone -q https://github.com/p6m7g8/p6df-core ~/src/p6m7g8/p6df-core
     (
         cd ~ ; 
         rm -f .zlogin .zlogout .zprofile .zshrc .zshenv
-        ln -s ~/src/p6m7g8/p6df-core/conf/zshenv-xdg .zshenv
-        ln -s ~/src/p6m7g8/p6df-core/conf/zshrc  .zshrc
+        ln -s ~/src/github.com/p6m7g8/p6df-core/conf/zshenv-xdg .zshenv
+        ln -s ~/src/github.com/p6m7g8/p6df-core/conf/zshrc  .zshrc
     )
 
     # reload
