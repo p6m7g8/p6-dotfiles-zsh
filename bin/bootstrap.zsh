@@ -2,7 +2,7 @@
 
 usage() {
     cat <<EOF
-Usage: 
+Usage:
   curl -s -O /tmp/bootstrap.zsh https://raw.githubusercontent.com/p6m7g8/p6dfz/master/bin/bootstrap.zsh)
   /tmp/bootstrap.zsh [org/repo]
 
@@ -14,21 +14,35 @@ Environment:
   HOME must be set to a valid existing home dir you have 755 to or better
 
 Args:
-  org/repo - a Github org/repo [defaults to pgollucci/home] containing a zsh-me file in the top level
-             Any other files will also be symlinked to from ~
-Options:
-  --debug  |-d      Enable debugging
-  --verbose|-v      Be verbose
-  --help   |-h      Show this help message
+  org/repo - a Github $org/$repo [defaults to pgollucci/home] containing a .zsh-me file in the top level
 
-  --local  |-l      Allow modules with *-private-* in them (GH repo should be private too)
+Options:
+  --debug   |-d      Enable debugging
+  --verbose |-v      Be verbose
+  --help    |-h      Show this help message
+
+  --local   |-l      Allow modules with *-private-* in them (GH repo SHOULD be private too)
+                     By default also clone $org/$repo-private
 EOF
     exit 0
 }
 
 #####################################################################################################
-#> 
-# parse_cli() 
+#>
+# reload()
+#
+# reloads configs
+#<
+#####################################################################################################
+reload() {
+
+    . ~/.zshenv
+    . ~/.zshrc
+}
+
+#####################################################################################################
+#>
+# parse_cli()
 #
 # SIDE EFFECTS: %Flags
 #
@@ -37,10 +51,12 @@ EOF
 parse_cli() {
     # inherit "$@"
 
+    # XXX: getopts
+
     if [ $# -gt 1 ]; then
-        usage
+	usage
     fi
- 
+
     # only support 1 optional arg [org/repo] which defaults to pgollucci/home
     local org_repo="$1"
 
@@ -52,10 +68,12 @@ parse_cli() {
     declare -gA Flags
     Flags["org"]=$org
     Flags["repo"]=$repo
+
+    Flags["local"]=1
 }
 
 #####################################################################################################
-#> 
+#>
 # main
 #
 # see usage()
@@ -63,6 +81,8 @@ parse_cli() {
 #####################################################################################################
 main() {
 
+    # XXX: this lines up with GOPATH=$HOME but goenv moves this to go/V/src so we symlink it and forget it
+    # XXX: see p6df-go
     local gh_dir="$HOME/src/github.com"
 
     # returns %Flags
@@ -73,43 +93,59 @@ main() {
 
     # make p6 org
     local p6_org="p6m7g8"
-    mkdir -p $gh_dir/$p6_org 
+    mkdir -p $gh_dir/$p6_org
 
-    # clone 3 repos
+    # clone repos
+    local -aU repos=($p6_org/p6df-core $p6_org/p6dfz $Flags["org"]/$Flags["repo"])
+    if [[ $Flags["local"] = "1" ]]; then
+	repos+=($Flags["org"]/$Flags["repo"]-private)
+    fi
+
     local org_repo
-    for org_repo in $p6_org/p6df-core $p6_org/p6dfz $Flags["org"]/$Flags["repo"]; do
-        local dir="$gh_dir/$org_repo"
-      
-        echo "=====> $dir"
-        if [ -d $dir ]; then
-            ( cd $dir ; git pull )
-        else
-            git clone https://github.com/$org_repo $dir
-        fi
+    for org_repo in $repos[@]; do
+	local dir="$gh_dir/$org_repo"
+
+	echo "=====> $dir"
+	if [ -d $dir ]; then
+	    ( cd $dir ; git pull )
+	else
+	    git clone https://github.com/$org_repo $dir
+	fi
     done
 
-    # connect p6dfz to zsh init files
+    # start sub-shell in ~ for path ease
     (
-        cd ~ ; 
-        rm -f .zlogin .zlogout .zprofile .zshrc .zshenv
-        ln -s $gh_dir/$p6_org/p6df-core/conf/zshenv-xdg .zshenv
-        ln -s $gh_dir/$p6_org/p6df-core/conf/zshrc  .zshrc
-    )
+	cd ~ ;
 
-    # symlink to everything in $Flags["org"]/$Flags["repo"] from ~
-    (
-        cd ~ 
-        local file
-        for file in $(cd $gh_dir/$Flags["org"]/$Flags["repo"] ; git ls-files); do
-            echo "~/$file -> $gh_dir/$Flags["org"]/$Flags["reop"]/$file"
-            ln -fs $gh_dir/$Flags["org"]/$Flags["repo"]/$file .
-        done
+	# connect p6dfz to zsh init files
+	rm -f .zlogin .zlogout .zprofile .zshrc .zshenv
+	ln -s $gh_dir/$p6_org/p6df-core/conf/zshenv-xdg .zshenv
+	ln -s $gh_dir/$p6_org/p6df-core/conf/zshrc  .zshrc
+
+	# connect "my" config
+	ln -fs $gh_dir/$Flags["org"]/$Flags["repo"]/.zsh-me .
     )
 
     # reload
-    exec zsh -li
+    reload
 
-    # don't get here
+    # pull down code
+    p6df::modules::fetch
+    reload
+
+    # run symiinks
+    p6df::modules::symlink
+    reload
+
+    # XXX: installing external deps and optionally langs is 100% but takes too long
+    echo "p6df::modules::external_deps"
+    echo "[p6df::modules::langs]"
+
+    reload
+
+    # cleanup
+    unset Flags
+
     return $status
 }
 
