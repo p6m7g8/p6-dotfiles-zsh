@@ -119,8 +119,8 @@ main() {
 
 	# connect p6dfz to zsh init files
 	rm -f .zlogin .zlogout .zprofile .zshrc .zshenv
-	ln -s $gh_dir/$p6_org/p6df-core/conf/zshenv-xdg .zshenv
-	ln -s $gh_dir/$p6_org/p6df-core/conf/zshrc  .zshrc
+	ln -fs $gh_dir/$p6_org/p6df-core/conf/zshenv-xdg .zshenv
+	ln -fs $gh_dir/$p6_org/p6df-core/conf/zshrc  .zshrc
 
 	# connect "my" config
 	ln -fs $gh_dir/$Flags["org"]/$Flags["repo"]/.zsh-me .
