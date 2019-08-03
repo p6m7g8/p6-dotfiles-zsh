@@ -38,6 +38,7 @@ reload() {
 
     . ~/.zshenv
     . ~/.zshrc
+    p6df::init
 }
 
 #####################################################################################################
@@ -135,7 +136,6 @@ main() {
 
     # run symiinks
     p6df::modules::symlink
-    reload
 
     # XXX: installing external deps and optionally langs is 100% but takes too long
     echo "p6df::modules::external_deps"
