@@ -3,7 +3,8 @@
 usage() {
     cat <<EOF
 Usage:
-  curl -s -O /tmp/bootstrap.zsh https://raw.githubusercontent.com/p6m7g8/p6dfz/master/bin/bootstrap.zsh)
+  curl -s -o /tmp/bootstrap.zsh https://raw.githubusercontent.com/p6m7g8/p6dfz/master/bin/bootstrap.zsh
+  chmod a+rx /tmp/bootstrap.zsh
   /tmp/bootstrap.zsh [org/repo]
 
 Depends On:
