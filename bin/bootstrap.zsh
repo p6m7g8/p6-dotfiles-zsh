@@ -22,7 +22,7 @@ Options:
   --verbose |-v      Be verbose
   --help    |-h      Show this help message
 
-  --local   |-l      Allow modules with *-private-* in them (GH repo SHOULD be private too)
+  --local   |-l      Allow modules with *-private[-*] in them (GH repo SHOULD be private too)
                      By default also clone $org/$repo-private
 EOF
     exit 0
