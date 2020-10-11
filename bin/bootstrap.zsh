@@ -131,19 +131,6 @@ main() {
     # reload
     reload
 
-    # pull down code
-    p6df::modules::fetch
-    reload
-
-    # run symiinks
-    p6df::modules::symlink
-
-    # XXX: installing external deps and optionally langs is 100% but takes too long
-    echo "p6df::modules::external_deps"
-    echo "[p6df::modules::langs]"
-
-    reload
-
     # cleanup
     unset Flags
 
