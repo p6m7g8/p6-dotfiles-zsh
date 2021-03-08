@@ -38,8 +38,7 @@
 
 - [Change Log](CHANGELOG.md)
 
-### Usage
-
+## Usage
 
 ## Author
 
